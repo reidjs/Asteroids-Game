@@ -69,29 +69,6 @@
 
 const Game = __webpack_require__(1);
 
-// const view = function start() {
-//   const canvas = document.getElementById("canvas");
-//   canvas.width = Game.dim_x;
-//   canvas.height = Game.dim_y;
-//
-//   const ctx = canvas.getContext("2d");
-//   ctx.fillStyle = "purple";
-//   ctx.fillRect(0, 0, 500, 500);
-//
-//   // const mov = new mo([30, 30],[10, 10], 5, "#00FF00");
-//   // const ast1 = new Asteroid({ pos: [30, 30], vel: [5,5]});
-//
-//   // ast1.vel
-//
-//   return function update() {
-//     // mov.draw(ctx);
-//     // // mov.move();
-//     // // debugger;
-//     // ast1.draw(ctx);
-//     // ast1.move();
-//     return ctx;
-//   };
-// };
 
 const canvas = document.getElementById("canvas");
 canvas.width = Game.dim_x;
@@ -105,7 +82,7 @@ Game.draw(ctx);
 setInterval(function() {
   Game.draw(ctx);
   Game.moveObjects();
-}, 1000);
+}, 10);
 // module.exports = view;
 
 
@@ -117,6 +94,7 @@ const DIM_X = 500;
 const DIM_Y = 500;
 const NUM_ASTEROIDS = 20;
 const Asteroid = __webpack_require__(2);
+const Util = __webpack_require__(3);
 
 // setInterval(game_view(), 1000);
 
@@ -128,7 +106,7 @@ const Game = function Game(){
 };
 
 Game.prototype.addAsteroids = function addAsteroids() {
-  let a = new Asteroid({pos: [110, 320], vel: [10,10]});
+  let a = new Asteroid({pos: [Math.random()*500, Math.random()*500], vel: Util.randomVec(10)});
   this.asteroids.push(a);
 };
 
@@ -150,7 +128,9 @@ Game.prototype.draw = function draw(ctx) {
 };
 
 const game = new Game;
-game.addAsteroids();
+for (let i =0; i < 50; i++){
+  game.addAsteroids();
+}
 
 
 module.exports = game;
@@ -185,8 +165,18 @@ const Util = {
     Surrogate.prototype = parentClass.prototype;
     childClass.prototype = new Surrogate();
     childClass.prototype.constructor = childClass;
+  },
+  randomVec (length) {
+    const deg = 2 * Math.PI * Math.random();
+    return Util.scale([Math.sin(deg), Math.cos(deg)], length);
+  },
+  // Scale the length of a vector by the given amount.
+  scale (vec, m) {
+    return [vec[0] * m, vec[1] * m];
   }
 };
+
+
 
 module.exports = Util;
 

@@ -2,6 +2,7 @@ const DIM_X = 500;
 const DIM_Y = 500;
 const NUM_ASTEROIDS = 20;
 const Asteroid = require('./asteroid.js');
+const Util = require('./util.js');
 
 // setInterval(game_view(), 1000);
 
@@ -13,7 +14,7 @@ const Game = function Game(){
 };
 
 Game.prototype.addAsteroids = function addAsteroids() {
-  let a = new Asteroid({pos: [110, 320], vel: [10,10]});
+  let a = new Asteroid({pos: [Math.random()*500, Math.random()*500], vel: Util.randomVec(10)});
   this.asteroids.push(a);
 };
 
@@ -35,7 +36,9 @@ Game.prototype.draw = function draw(ctx) {
 };
 
 const game = new Game;
-game.addAsteroids();
+for (let i =0; i < 50; i++){
+  game.addAsteroids();
+}
 
 
 module.exports = game;
